@@ -20,10 +20,10 @@ class MainActivity : AppCompatActivity() {
 
         clearTextView()
 
-        var thread = NetworkThread()
+        val thread = NetworkThread()
         thread.start()
 
-        playButton.setOnClickListener() {
+        playButton.setOnClickListener {
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.pause()
             } else {
@@ -40,14 +40,14 @@ class MainActivity : AppCompatActivity() {
 
     inner class NetworkThread: Thread() {
         override fun run() {
-            var site = "https://grepp-programmers-challenges.s3.ap-northeast-2.amazonaws.com/2020-flo/song.json"
-            var url = URL(site)
-            var conn = url.openConnection()
-            var input = conn.getInputStream()
-            var isr = InputStreamReader(input)
-            var br = BufferedReader(isr)
-            var str: String? = null
-            var buf = StringBuffer()
+            val site = "https://grepp-programmers-challenges.s3.ap-northeast-2.amazonaws.com/2020-flo/song.json"
+            val url = URL(site)
+            val conn = url.openConnection()
+            val input = conn.getInputStream()
+            val isr = InputStreamReader(input)
+            val br = BufferedReader(isr)
+            var str: String?
+            val buf = StringBuffer()
 
             do {
                 str = br.readLine()
@@ -57,12 +57,12 @@ class MainActivity : AppCompatActivity() {
                 }
             } while (str!=null)
 
-            var root = JSONObject(buf.toString())
-            var image: String = root.getString("image")
-            var singer: String = root.getString("singer")
-            var album: String = root.getString("album")
-            var title: String = root.getString("title")
-            var duration: Int = root.getInt("duration")
+            val root = JSONObject(buf.toString())
+            val image: String = root.getString("image")
+            val singer: String = root.getString("singer")
+            val album: String = root.getString("album")
+            val title: String = root.getString("title")
+//            var duration: Int = root.getInt("duration")
 
             musicUrl = root.getString("file")
 
