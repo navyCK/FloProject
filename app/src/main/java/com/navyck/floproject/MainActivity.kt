@@ -20,8 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         clearTextView()
 
-        val thread = NetworkThread()
-        thread.start()
+        startThread()
 
         playButton.setOnClickListener {
             if (mediaPlayer.isPlaying) {
@@ -31,6 +30,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun startThread() {
+        val thread = NetworkThread()
+        thread.start()
     }
 
     private fun setImage(imageUrl: String) {
