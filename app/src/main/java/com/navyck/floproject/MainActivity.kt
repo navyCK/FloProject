@@ -19,9 +19,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         clearTextView()
-
         startThread()
+        touchPlayButton()
+    }
 
+    private fun touchPlayButton() {
         playButton.setOnClickListener {
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.pause()
@@ -29,7 +31,6 @@ class MainActivity : AppCompatActivity() {
                 mediaPlayer.start()
             }
         }
-
     }
 
     private fun startThread() {
