@@ -3,6 +3,7 @@ package com.navyck.floproject
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.SeekBar
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
@@ -21,14 +22,18 @@ class MainActivity : AppCompatActivity() {
         clearTextView()
         startThread()
         touchPlayButton()
+
+
     }
 
     private fun touchPlayButton() {
         playButton.setOnClickListener {
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.pause()
+                playButton.setImageResource(R.drawable.ic_play_arrow)
             } else {
                 mediaPlayer.start()
+                playButton.setImageResource(R.drawable.ic_pause)
             }
         }
     }

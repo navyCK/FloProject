@@ -88,7 +88,7 @@
                     android:id="@+id/preButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/ic_media_rew"
+                    android:src="@drawable/ic_skip_previous"
                     tools:ignore="ContentDescription" />
 
                 <ImageButton
@@ -96,7 +96,7 @@
                     android:id="@+id/playButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/ic_media_play"
+                    android:src="@drawable/ic_play_arrow"
                     tools:ignore="ContentDescription" />
 
                 <ImageButton
@@ -104,7 +104,7 @@
                     android:id="@+id/nextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@android:drawable/ic_media_ff"
+                    android:src="@drawable/ic_skip_next"
                     tools:ignore="ContentDescription" />
 
             </LinearLayout>
