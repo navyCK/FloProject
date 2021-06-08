@@ -3,6 +3,7 @@ package com.navyck.floproject
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.SeekBar
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
@@ -14,6 +15,9 @@ import java.net.URL
 class MainActivity : AppCompatActivity() {
     var musicUrl = ""
     var mediaPlayer = MediaPlayer()
+    private lateinit var runnable:Runnable
+    private var handler: Handler = Handler()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +27,23 @@ class MainActivity : AppCompatActivity() {
         startThread()
         touchPlayButton()
 
+        // Seek bar change listener
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                if (b) {
+                    mediaPlayer.seekTo(i * 1000)
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+            }
+        })
 
     }
+
 
     private fun touchPlayButton() {
         playButton.setOnClickListener {
@@ -35,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                 mediaPlayer.start()
                 playButton.setImageResource(R.drawable.ic_pause)
             }
+            initializeSeekBar()
         }
     }
 
@@ -72,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             val singer: String = root.getString("singer")
             val album: String = root.getString("album")
             val title: String = root.getString("title")
-//            var duration: Int = root.getInt("duration")
+            val duration: String = root.getString("duration")
 
             musicUrl = root.getString("file")
 
@@ -87,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                 titleTextView.append(title)
                 artistTextView.append(singer)
                 albumTextView.append(album)
+                tv_due.text = "$duration sec"
 
             }
 
@@ -98,6 +119,32 @@ class MainActivity : AppCompatActivity() {
         artistTextView.text = ""
         albumTextView.text = ""
     }
+
+    private fun initializeSeekBar() {
+        seekBar.max = mediaPlayer.seconds
+
+        runnable = Runnable {
+            seekBar.progress = mediaPlayer.currentSeconds
+
+            tv_pass.text = "${mediaPlayer.currentSeconds} sec"
+            val diff = mediaPlayer.seconds - mediaPlayer.currentSeconds
+            tv_due.text = "$diff sec"
+
+            handler.postDelayed(runnable, 1000)
+        }
+        handler.postDelayed(runnable, 1000)
+    }
+
+    // Creating an extension property to get the media player time duration in seconds
+    val MediaPlayer.seconds:Int
+        get() {
+            return this.duration / 1000
+        }
+    // Creating an extension property to get media player current position in seconds
+    val MediaPlayer.currentSeconds:Int
+        get() {
+            return this.currentPosition/1000
+        }
 
 
 }

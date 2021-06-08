@@ -69,11 +69,33 @@
                 android:layout_height="wrap_content"
                 android:text="ALBUM"/>
 
-            <SeekBar
-                android:layout_margin="5dp"
-                android:id="@+id/seekBar"
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_pass"
+                    android:text="0 sec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp" />
+
+                <TextView
+                    android:id="@+id/tv_due"
+                    android:text="0 sec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
 
 
 
