@@ -1,5 +1,6 @@
 package com.navyck.floproject
 
+import android.annotation.SuppressLint
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -94,6 +95,18 @@ class MainActivity : AppCompatActivity() {
             val title: String = root.getString("title")
             val duration: String = root.getString("duration")
 
+            var min: Int = duration.toInt() / 60
+            val hour= min/60
+            val sec = duration.toInt() % 60
+            min %= 60
+            var strHour = hour.toString()
+            var strMin = min.toString()
+            var strSec = sec.toString()
+            if (hour.toString().length == 1) { strHour = "0$hour" }
+            if (min.toString().length == 1) { strMin = "0$min" }
+            if (sec.toString().length == 1) { strSec = "0$sec" }
+            val time: String = "$strHour:$strMin:$strSec"
+
             musicUrl = root.getString("file")
 
 
@@ -107,7 +120,7 @@ class MainActivity : AppCompatActivity() {
                 titleTextView.append(title)
                 artistTextView.append(singer)
                 albumTextView.append(album)
-                tv_due.text = "$duration sec"
+                endTimeView.text = time
 
             }
 
@@ -120,28 +133,28 @@ class MainActivity : AppCompatActivity() {
         albumTextView.text = ""
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initializeSeekBar() {
         seekBar.max = mediaPlayer.seconds
 
         runnable = Runnable {
             seekBar.progress = mediaPlayer.currentSeconds
 
-            tv_pass.text = "${mediaPlayer.currentSeconds} sec"
+            startTimeView.text = "${mediaPlayer.currentSeconds} sec"
             val diff = mediaPlayer.seconds - mediaPlayer.currentSeconds
-            tv_due.text = "$diff sec"
+            endTimeView.text = "$diff sec"
 
             handler.postDelayed(runnable, 1000)
         }
         handler.postDelayed(runnable, 1000)
     }
 
-    // Creating an extension property to get the media player time duration in seconds
-    val MediaPlayer.seconds:Int
+    private val MediaPlayer.seconds:Int
         get() {
             return this.duration / 1000
         }
-    // Creating an extension property to get media player current position in seconds
-    val MediaPlayer.currentSeconds:Int
+
+    private val MediaPlayer.currentSeconds:Int
         get() {
             return this.currentPosition/1000
         }
