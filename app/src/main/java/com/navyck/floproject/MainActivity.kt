@@ -27,8 +27,11 @@ class MainActivity : AppCompatActivity() {
         clearTextView()
         startThread()
         touchPlayButton()
+        setSeekBarListener()
 
-        // Seek bar change listener
+    }
+
+    private fun setSeekBarListener() {
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 if (b) {
@@ -42,7 +45,6 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar) {
             }
         })
-
     }
 
 
@@ -95,17 +97,7 @@ class MainActivity : AppCompatActivity() {
             val title: String = root.getString("title")
             val duration: String = root.getString("duration")
 
-            var min: Int = duration.toInt() / 60
-            val hour= min/60
-            val sec = duration.toInt() % 60
-            min %= 60
-            var strHour = hour.toString()
-            var strMin = min.toString()
-            var strSec = sec.toString()
-            if (hour.toString().length == 1) { strHour = "0$hour" }
-            if (min.toString().length == 1) { strMin = "0$min" }
-            if (sec.toString().length == 1) { strSec = "0$sec" }
-            val time: String = "$strHour:$strMin:$strSec"
+            val time: String = setFormat(duration.toInt())
 
             musicUrl = root.getString("file")
 
@@ -140,13 +132,36 @@ class MainActivity : AppCompatActivity() {
         runnable = Runnable {
             seekBar.progress = mediaPlayer.currentSeconds
 
-            startTimeView.text = "${mediaPlayer.currentSeconds} sec"
             val diff = mediaPlayer.seconds - mediaPlayer.currentSeconds
-            endTimeView.text = "$diff sec"
+            val startTime: String = setFormat(mediaPlayer.currentSeconds)
+            val endTime: String = setFormat(diff)
+
+            startTimeView.text = startTime
+            endTimeView.text = endTime
 
             handler.postDelayed(runnable, 1000)
         }
         handler.postDelayed(runnable, 1000)
+    }
+
+    private fun setFormat(second:Int): String {
+        var min: Int = second / 60
+        val hour = min / 60
+        val sec = second % 60
+        min %= 60
+        var strHour = hour.toString()
+        var strMin = min.toString()
+        var strSec = sec.toString()
+        if (hour.toString().length == 1) {
+            strHour = "0$hour"
+        }
+        if (min.toString().length == 1) {
+            strMin = "0$min"
+        }
+        if (sec.toString().length == 1) {
+            strSec = "0$sec"
+        }
+        return "$strHour:$strMin:$strSec"
     }
 
     private val MediaPlayer.seconds:Int
