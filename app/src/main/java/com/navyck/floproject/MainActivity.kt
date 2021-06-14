@@ -95,9 +95,6 @@ class MainActivity : AppCompatActivity() {
             val singer: String = root.getString("singer")
             val album: String = root.getString("album")
             val title: String = root.getString("title")
-            val duration: String = root.getString("duration")
-
-            val time: String = setFormat(duration.toInt())
 
             musicUrl = root.getString("file")
 
@@ -112,7 +109,8 @@ class MainActivity : AppCompatActivity() {
                 titleTextView.append(title)
                 artistTextView.append(singer)
                 albumTextView.append(album)
-                endTimeView.text = time
+
+                endTimeView.text = setFormat(mediaPlayer.seconds)
 
             }
 
@@ -138,6 +136,12 @@ class MainActivity : AppCompatActivity() {
 
             startTimeView.text = startTime
             endTimeView.text = endTime
+
+            if (mediaPlayer.duration - mediaPlayer.currentPosition <= 1000) {
+                mediaPlayer.seekTo(0)
+                mediaPlayer.pause()
+                playButton.setImageResource(R.drawable.ic_play_arrow)
+            }
 
             handler.postDelayed(runnable, 1000)
         }
@@ -165,14 +169,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val MediaPlayer.seconds:Int
-        get() {
-            return this.duration / 1000
-        }
+        get() { return this.duration / 1000 }
 
     private val MediaPlayer.currentSeconds:Int
-        get() {
-            return this.currentPosition/1000
-        }
-
+        get() { return this.currentPosition / 1000 }
 
 }
