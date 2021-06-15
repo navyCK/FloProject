@@ -1,11 +1,15 @@
 package com.navyck.floproject
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.media.AudioManager
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.widget.SeekBar
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
@@ -24,11 +28,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         clearTextView()
         startThread()
         touchPlayButton()
         setSeekBarListener()
 
+        lyricsButton.setOnClickListener() {
+            if (imageView.isVisible) {
+                imageView.visibility = View.INVISIBLE
+                lyricsTextView.visibility = View.VISIBLE
+            } else {
+                imageView.visibility = View.VISIBLE
+                lyricsTextView.visibility = View.GONE
+            }
+        }
     }
 
     private fun setSeekBarListener() {
@@ -95,6 +109,7 @@ class MainActivity : AppCompatActivity() {
             val singer: String = root.getString("singer")
             val album: String = root.getString("album")
             val title: String = root.getString("title")
+            val lyrics: String = root.getString("lyrics")
 
             musicUrl = root.getString("file")
 
@@ -109,6 +124,7 @@ class MainActivity : AppCompatActivity() {
                 titleTextView.append(title)
                 artistTextView.append(singer)
                 albumTextView.append(album)
+                lyricsTextView.append(lyrics)
 
                 endTimeView.text = setFormat(mediaPlayer.seconds)
 
@@ -121,6 +137,7 @@ class MainActivity : AppCompatActivity() {
         titleTextView.text = ""
         artistTextView.text = ""
         albumTextView.text = ""
+        lyricsTextView.text = ""
     }
 
     @SuppressLint("SetTextI18n")

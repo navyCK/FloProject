@@ -15,22 +15,40 @@
         android:layout_margin="20dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:gravity="center"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="300dp"
+            tools:ignore="NestedScrolling">
 
-            <ImageView
-                android:adjustViewBounds="true"
-                android:id="@+id/imageView"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                tools:ignore="ContentDescription" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </LinearLayout>
+                <ImageView
+                    android:visibility="visible"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:id="@+id/imageView"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    tools:ignore="ContentDescription,MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/lyricsTextView"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:text="Hello Lyrics!"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+            </FrameLayout>
+
+        </ScrollView>
 
         <LinearLayout
             android:layout_marginTop="30dp"
@@ -155,7 +173,7 @@
                 </LinearLayout>
 
                 <SeekBar
-                    android:id="@+id/soundBar"
+                    android:id="@+id/soundSeekBar"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
